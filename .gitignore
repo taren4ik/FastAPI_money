@@ -1,0 +1,5 @@
+.env
+venv
+__cache__
+env
+.idea
