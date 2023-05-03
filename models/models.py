@@ -1,11 +1,11 @@
 from datetime import  datetime
-from sqlalchemy import (MetaData, Table, Column, Integer, String, TIMESTAMP,
-                                          ForeignKey, JSON)
+from sqlalchemy import (Boolean,MetaData, Table, Column, Integer, String,
+                        TIMESTAMP, ForeignKey, JSON)
 
 metadate = MetaData()
 
-roles = Table(
-    'roles',
+role = Table(
+    'role',
     metadate,
     Column('id', Integer, primary_key=True),
     Column('name', String, nullable=False),
@@ -13,13 +13,17 @@ roles = Table(
 )
 
 
-users = Table(
-    'users',
+user = Table(
+    'user',
     metadate,
     Column('id', Integer, primary_key=True),
     Column('email', String, nullable=False),
     Column('username', String, nullable=False),
-    Column('password', String, nullable=False),
+    Column('hashed_password', String, nullable=False),
     Column('registered_at', TIMESTAMP, default=datetime.utcnow()),
-    Column('role_id', Integer, ForeignKey('roles.id')),
+    Column('role_id', Integer, ForeignKey('role.id')),
+    Column('is_active', Boolean, nullable=False),
+    Column('is_superuser', Boolean, nullable=False),
+    Column('is_verified', Boolean, nullable=False),
+
 )
