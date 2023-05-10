@@ -1,6 +1,7 @@
 from typing import AsyncGenerator
 import datetime
 
+from models.models import role
 from fastapi import Depends
 from sqlalchemy.orm import Mapped, declared_attr, mapped_column
 from sqlalchemy import (
@@ -13,7 +14,7 @@ from sqlalchemy.orm import DeclarativeBase
 
 from config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 
-DATABASE_URL = (f'postgresql+asyncpg://{DB_USER}:{DB_PASS}:{DB_HOST}:{DB_PORT}'
+DATABASE_URL = (f'postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}'
                 f'/{DB_NAME}')
 
 
@@ -25,8 +26,8 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     id = Column(Integer, primary_key=True)
     email = Column(String, nullable=False)
     username = Column(String, nullable=False)
-    registered_at = Column(TIMESTAMP,  default=datetime.utcnow())
-    role_id = Column(Integer, ForeignKey('role.id')),
+    registered_at = Column(TIMESTAMP,  default=datetime.datetime.utcnow())
+    role_id = Column(Integer, ForeignKey(role.c.id))
     hashed_password: Mapped[str] = mapped_column(
         String(length=1024), nullable=False
     )
