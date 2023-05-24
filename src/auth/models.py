@@ -15,7 +15,8 @@ role = Table(
     Column('permissions', JSON)
 )
 
-user = Table(
+
+user = Table( # декларативный полдход
     'user',
     metadate,
     Column('id', Integer, primary_key=True),

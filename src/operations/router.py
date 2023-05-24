@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import insert, select
 
 from src.datebase import get_async_session
 from src.operations.models import operation
@@ -25,5 +25,8 @@ async def get_specific_opertaions(operation_type: str,
 
 @router.post('/')
 async def add_specific_opertaions(new_operation: Operation, session:
-    AsyncSession = Depends(get_async_session)):
+AsyncSession = Depends(get_async_session)):
+    stmt = insert(operation).values(**new_operation.dict())
+    await session.execute(stmt)
+    await session.commit() # исполнение транзакции
     return {'status': 'succeess'}
