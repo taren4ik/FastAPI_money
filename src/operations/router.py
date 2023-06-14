@@ -16,7 +16,7 @@ router = APIRouter(
 )
 
 
-@router.get("/long_operation") #кэширую в течение
+@router.get("/long_operation") #кэширую в течение 30 сек
 @cache(expire=30)
 def get_long_op():
     time.sleep(2)

@@ -8,7 +8,7 @@ from src.auth.shemas import UserCreate, UserRead
 
 from fastapi import FastAPI, Depends
 from src.operations.router import router as router_operation
-from fastapi_users import FastAPIUsers
+from src.tasks.router import router as router_tasks
 from redis import asyncio as aioredis
 
 app = FastAPI(
@@ -30,6 +30,7 @@ app.include_router(
 
 
 app.include_router(router_operation)
+app.include_router(router_tasks)
 
 
 @app.on_event("startup")
